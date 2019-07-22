@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <View android:id="@+id/mask"
+        android:alpha="0.7"
+        android:background="#000"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:text="Audio Call"
+        android:textColor="#fff"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/mask" />
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/avatar"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+        android:layout_marginTop="70dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="100dp"
+        android:layout_height="100dp" />
+
+    <TextView android:id="@+id/doctor_name"
+        android:text="Dr Jay Tokunbo"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:textColor="@color/colorWhite"
+        android:textStyle="bold"
+        android:layout_margin="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/avatar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/call_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:gravity="center"
+        android:text="Connecting..."
+        android:textColor="@color/colorWhite"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/doctor_name" />
+
+    <TextView
+        android:id="@+id/timer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginEnd="8dp"
+        android:gravity="center"
+        android:text="00:30"
+        android:textColor="@color/colorWhite"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/call_status" />
+
+    <LinearLayout android:id="@+id/buttonPanel"
+        app:layout_constraintTop_toBottomOf="@+id/timer"
+        android:layout_marginBottom="30dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button android:id="@+id/speaker_btn"
+            android:layout_margin="10dp"
+            android:drawableTop="@drawable/ic_volume_up_gray"
+            android:text="Speaker"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:textAllCaps="false"
+            android:textColor="@color/colorGray"
+            android:padding="10dp"
+            android:background="@drawable/circle_gray_border"
+            android:layout_width="70dp"
+            android:layout_height="70dp" />
+
+        <Button android:id="@+id/mute_btn"
+            android:layout_margin="10dp"
+            android:textAllCaps="false"
+            android:text="Mute"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorGray"
+            android:padding="10dp"
+            android:background="@drawable/circle_gray_border"
+            android:drawableTop="@drawable/ic_mic_off_gray"
+            android:layout_width="70dp"
+            android:layout_height="70dp" />
+        <Button android:id="@+id/hide_btn"
+            android:layout_margin="10dp"
+            android:visibility="gone"
+            android:text="Hide"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:textAllCaps="false"
+            android:textColor="@color/colorGray"
+            android:padding="10dp"
+            android:background="@drawable/circle_gray_border"
+            android:drawableTop="@drawable/ic_unfold_less"
+            android:layout_width="70dp"
+            android:layout_height="70dp" />
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/end_btn"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/rounded_btn_background"
+        android:gravity="center"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:text="End"
+        android:textAllCaps="false"
+        android:textColor="@color/colorWhite"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonPanel" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

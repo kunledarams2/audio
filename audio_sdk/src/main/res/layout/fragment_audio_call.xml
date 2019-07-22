@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <View android:id="@+id/mask"
+        android:alpha="0.7"
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        app:title="Audio Call"
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center"
+        app:titleMarginStart="150dp"
+        app:titleTextColor="@color/colorWhite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <!--<ImageButton android:id="@+id/btn_video_call"-->
+        <!--android:visibility="gone"-->
+        <!--android:src="@drawable/video_call_white"-->
+        <!--android:layout_margin="15dp"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/toolbar"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--android:background="@android:color/transparent"-->
+        <!--android:padding="10dp"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content" />-->
+
+    <!--<ImageButton android:id="@+id/btn_chat"-->
+        <!--android:visibility="gone"-->
+        <!--android:src="@drawable/chat_white"-->
+        <!--android:layout_margin="15dp"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/toolbar"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--android:background="@android:color/transparent"-->
+        <!--android:padding="10dp"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content" />-->
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/avatar"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        android:layout_marginTop="70dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="100dp"
+        android:layout_height="100dp" />
+
+    <TextView android:id="@+id/doctor_name"
+        android:text="Dr Jay Tokunbo"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:textColor="@color/colorWhite"
+        android:textStyle="bold"
+        android:layout_margin="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/avatar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView android:id="@+id/call_status"
+        android:text="Connecting..."
+        android:gravity="center"
+        android:textSize="16sp"
+        android:textColor="@color/colorWhite"
+        android:layout_margin="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/doctor_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView android:id="@+id/timer"
+        android:text="00:30"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:textColor="@color/colorWhite"
+        android:layout_margin="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/call_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout android:id="@+id/buttonPanel"
+        app:layout_constraintTop_toBottomOf="@+id/timer"
+        android:layout_marginBottom="30dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button android:id="@+id/speaker_btn"
+            android:layout_margin="10dp"
+            android:drawableTop="@drawable/ic_volume_up_gray"
+            android:text="Speaker"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:textAllCaps="false"
+            android:textColor="@color/colorGray"
+            android:padding="10dp"
+            android:background="@drawable/circle_gray_border"
+            android:layout_width="70dp"
+            android:layout_height="70dp" />
+        <Button android:id="@+id/mute_btn"
+            android:layout_margin="10dp"
+            android:textAllCaps="false"
+            android:text="Mute"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorGray"
+            android:padding="10dp"
+            android:background="@drawable/circle_gray_border"
+            android:drawableTop="@drawable/ic_mic_off_gray"
+            android:layout_width="70dp"
+            android:layout_height="70dp" />
+        <Button android:id="@+id/hide_btn"
+            android:layout_margin="10dp"
+            android:visibility="gone"
+            android:text="Hide"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:textAllCaps="false"
+            android:textColor="@color/colorGray"
+            android:padding="10dp"
+            android:background="@drawable/circle_gray_border"
+            android:drawableTop="@drawable/ic_unfold_less"
+            android:layout_width="70dp"
+            android:layout_height="70dp" />
+    </LinearLayout>
+
+    <!--Button android:id="@+id/end_btn"
+        android:background="@android:color/transparent"
+        android:foreground="@drawable/background_black_border"
+        app:layout_constraintTop_toBottomOf="@+id/buttonPanel"
+        android:layout_margin="40dp"
+        android:text="End"
+        android:textAllCaps="false"
+        android:textColor="@color/colorWhite"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" /-->
+
+    <TextView android:id="@+id/end_btn"
+        android:background="@drawable/rounded_btn_background"
+        app:layout_constraintTop_toBottomOf="@+id/buttonPanel"
+        android:layout_margin="40dp"
+        android:text="End"
+        android:gravity="center"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:textAllCaps="false"
+        android:textColor="@color/colorWhite"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

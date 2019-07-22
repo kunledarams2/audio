@@ -1,0 +1,1 @@
+include ':app', ':audio_sdk', ':sinch-android-rtc-3.12.11', ':sinch-android-rtc-3.14.2'

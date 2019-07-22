@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/background_login" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryTrans" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".fragment.signup.StepOne">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="Talk To Doctor"
+                android:textColor="@color/colorWhite"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorWhite"
+                android:progress="14"
+                android:progressTint="@color/colorGray"
+                app:layout_constraintTop_toBottomOf="@+id/title" />
+
+            <RelativeLayout
+                android:id="@+id/form"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="120dp"
+                android:padding="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/progressBar"
+                app:layout_constraintVertical_bias="1.0"
+                tools:layout_editor_absoluteX="0dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/username_wrapper"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/gender_wrapper"
+                    android:layout_marginStart="@dimen/size_20"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="@dimen/size_10">
+
+                    <EditText
+                        android:id="@+id/username"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/colorWhite"
+                        android:hint="Username"
+                        android:inputType="text"
+                        android:textColor="@color/colorWhite"
+                        android:textColorHint="#fff"
+                        android:textSize="@dimen/font_14" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/password_wrapper"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/username_wrapper"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="@dimen/size_20"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="@dimen/size_10">
+
+                    <EditText
+                        android:id="@+id/password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/colorWhite"
+                        android:hint="Password"
+                        android:inputType="textPassword"
+                        android:textColor="@color/colorWhite"
+                        android:textColorHint="#fff"
+                        android:textSize="@dimen/font_14" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ImageButton
+                    android:id="@+id/reveal_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/username_wrapper"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="20dp"
+                    android:background="@android:color/transparent"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_eye_black" />
+
+                <TextView
+                    android:id="@+id/pass_hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/password_wrapper"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="-17dp"
+                    android:text="Not less that 6 characters"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="10sp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/pass2_wrapper"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/password_wrapper"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="@dimen/size_20"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="@dimen/size_10">
+
+                    <EditText
+                        android:id="@+id/password_confirm"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/colorWhite"
+                        android:hint="Confirm Password"
+                        android:inputType="textPassword"
+                        android:textColor="@color/colorWhite"
+                        android:textColorHint="@color/colorWhite"
+                        android:textSize="@dimen/font_14" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/password_wrapper"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="@dimen/size_10"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="10dp" />
+
+                <Button
+                    android:id="@+id/next_btn"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/pass2_wrapper"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/size_40"
+                    android:background="@drawable/login_btn_bg"
+                    android:text="Next"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/font_14"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+</RelativeLayout>
