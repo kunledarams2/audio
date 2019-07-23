@@ -58,7 +58,7 @@ public class DirectRouting extends BaseActivity {
         setContentView(R.layout.activity_direct_routing);
 
         getDoctorInfo = getIntent().getStringArrayListExtra("doctorDetails");
-        checkDoctor();
+//        checkDoctor();
     }
 
     /**
@@ -72,8 +72,6 @@ public class DirectRouting extends BaseActivity {
 
         String[] permission;
         if (getDoctorInfo.get(0) != null) {
-//            Intent intent =new Intent(this, ContactActivity.class);
-//            startActivity(intent);
             permission = VOICE_PERMISSIONS;
             if (!Permission.permissionsAreGranted(this, permission)) {
                 if (!isAskedbefore) {
@@ -95,11 +93,6 @@ public class DirectRouting extends BaseActivity {
 
 
     }
-
-    private void toastMessage(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
-    }
-
 
     private void initialConsultation() {
         call = new StringCall(this);
@@ -135,11 +128,13 @@ public class DirectRouting extends BaseActivity {
                     bundle.putString(DOCTOR_TOKEN, doctorPushToken);
                     bundle.putString(PATIENT_TOKEN, patientPushToken);
                     bundle.putString(CONSULTATION_ID, consultationId);
-                    bundle.putString(DOCTOR_ID, String.valueOf(doctorId));
+//                    bundle.putString(DOCTOR_ID, String.valueOf(doctorId));
                     bundle.putString(DOCTOR_AVATAR, doctorImage);
                     bundle.putString(DOCTOR_NAME, getDoctorInfo.get(2));
 
-                    placeCall(bundle);
+
+
+                    placeCall( doctcontId,bundle);
 
                 } else {
                     log(obj.getString("description"));
@@ -167,23 +162,31 @@ public class DirectRouting extends BaseActivity {
     @Override
     protected void onServiceConnected(IBinder iBinder) {
         super.onServiceConnected(iBinder);
-
+        checkDoctor();
+        Toast.makeText(this, "Sinch is ready",Toast.LENGTH_LONG).show();
     }
 
-    private void placeCall(Bundle bundle) {
-        String Doctor_ID = getDoctorInfo.get(0);
-        Call call = getSinchServiceInterface().VoiceCall(Doctor_ID, bundle);
-        Toast.makeText(this,call.getCallId(),Toast.LENGTH_LONG).show();
-//        if (call == null) {
-//            errorShowlog("Sorry. can not place call at this moment",errorMessage.Nocall);
-//        } else {
-//            String call_Id= call.getCallId();
-//            bundle.putString(CALL_ID, call_Id);
-//            Intent intent = new Intent(this, VoiceCall_Screen.class);
-//            intent.putExtras(bundle);
-//            startActivity(intent);
-//            finish();
-//        }
+    private void placeCall( String Doctor_UUID, Bundle bundle) {
+
+        try{
+            Call call = getSinchServiceInterface().mUserCall(Doctor_UUID, bundle);
+            if (call == null) {
+                errorShowlog("Sorry. can not place call at this moment",errorMessage.Nocall);
+            } else {
+
+                String call_Id= call.getCallId();
+                bundle.putString(CALL_ID, call_Id);
+                toastMessage(call_Id);
+                Intent intent = new Intent(this, VoiceCall_Screen.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+                finish();
+            }
+
+        }catch (Exception e){
+            Toast.makeText(this,e.getMessage()+ call.toString(),Toast.LENGTH_LONG).show();
+            Log.d("placecall",e.getMessage());
+        }
 
     }
 
@@ -275,5 +278,8 @@ public class DirectRouting extends BaseActivity {
         Log.e("Routing", "_-_________-------------________" + e);
     }
 
+    private void toastMessage(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+    }
 
 }

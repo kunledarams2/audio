@@ -45,7 +45,6 @@ public class SinchService extends Service {
 
 
     private SinchClient mSinchClient;
-
     private StartFailedListener mListener;
 
 
@@ -62,7 +61,7 @@ public class SinchService extends Service {
     }
 
     private boolean isStarted() {
-        return (mSinchClient==null && mSinchClient.isStarted());
+        return (mSinchClient!=null && mSinchClient.isStarted());
     }
 
     @Override
@@ -82,6 +81,7 @@ public class SinchService extends Service {
                 .environmentHost(ENVIRONMENT)
                 .build();
         mSinchClient.setSupportCalling(true);
+        mSinchClient.startListeningOnActiveConnection();
 //        mSinchClient.setSupportManagedPush(true);
 
         mSinchClient.addSinchClientListener(new MySinchClientListener());
@@ -90,15 +90,13 @@ public class SinchService extends Service {
 
     private void startClicentcall(String username){
 
-        if(mSinchClient==null && !username.isEmpty() ){
-
+        if(mSinchClient==null && !username.isEmpty()  ){
             Log.d("mSinchClient is null","Create new client ");
             createClient(username);
             mSinchClient.start();
         }
-
-
     }
+
     @Override
     public IBinder onBind(Intent intent) {
         return mServiceInterface ;
@@ -106,18 +104,16 @@ public class SinchService extends Service {
 
     public class SinchServiceInterface extends Binder {
 
-        String [] keys ={ CONSULTATION_ID, DOCTOR_TOKEN, PATIENT_TOKEN};
 
-        public Call VoiceCall(String userId,Bundle bundle){
+        public Call mUserCall(String userId,Bundle bundle){
 
             Map<String, String > payLoad= new HashMap<>();
             payLoad.put("patientName", API.getUsername(SinchService.this));
             payLoad.put("patientId",API.getCustomerId(SinchService.this));
+            payLoad.put("consultationId",bundle.getString(CONSULTATION_ID));
+            payLoad.put("doctorToken",bundle.getString(DOCTOR_TOKEN));
+            payLoad.put("patientToken",bundle.getString(PATIENT_TOKEN));
 
-            for( String key:keys){
-
-                payLoad.put(key,bundle.getString(key));
-            }
 
             CallClient callClient= mSinchClient.getCallClient();
 
@@ -127,7 +123,9 @@ public class SinchService extends Service {
             if(isStarted()){
                 return callClient.callUser(userId,payLoad);
             }
-            else return null;
+            else{
+                return null;
+            }
         }
 
 

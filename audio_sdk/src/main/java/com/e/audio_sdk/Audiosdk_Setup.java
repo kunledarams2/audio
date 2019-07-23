@@ -39,23 +39,27 @@ public class Audiosdk_Setup extends BaseActivity implements SinchService2.StartF
 
     public void sdk_Setup(String userEmail) {
 
-        setUUID();
-
         Intent intent = new Intent(context, Authm.class);
         intent.putExtra("userEmail", userEmail);
         context.startActivity(intent);
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode==UUID_PERMISSION){
+            setUUID();
+        }
+    }
 
     private void setUUID() {
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE)
                 == PackageManager.PERMISSION_GRANTED) {
             TelephonyManager manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
             final String uuid;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                uuid = (Build.VERSION.SDK_INT >= 26) ? manager.getImei() : manager.getDeviceId();
-                IO.setData(context, API.MY_UUID, uuid);
-            }
+            uuid = (Build.VERSION.SDK_INT >= 26) ? manager.getImei() : manager.getDeviceId();
+            IO.setData(context, API.MY_UUID, uuid);
+
 
         } else {
             ActivityCompat.requestPermissions((Activity) context, new String[]{
@@ -78,4 +82,6 @@ public class Audiosdk_Setup extends BaseActivity implements SinchService2.StartF
     public void onStarted() {
 
     }
+
+
 }
