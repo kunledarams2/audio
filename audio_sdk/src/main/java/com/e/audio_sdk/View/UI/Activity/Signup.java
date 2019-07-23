@@ -31,7 +31,7 @@ import org.json.JSONObject;
 
 import java.util.Map;
 
-public class Signup extends AppCompatActivity implements FragmentChanger, ModelSaver<SDK_User> {
+public class Signup extends BaseActivity implements FragmentChanger, ModelSaver<SDK_User> {
 
     public static final String STEP_ONE = "step_one";
     public static final String STEP_TWO = "step_two";

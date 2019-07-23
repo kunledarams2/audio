@@ -66,15 +66,11 @@ public class Authm extends BaseActivity implements SinchService.StartFailedListe
 
 
         call.post(URLS.SDK_AUTHENICATION, logParams, response -> {
-
             try {
                 JSONObject obj = new JSONObject(response);
-
                 if (obj.has("code") && obj.getInt("code") == 0) {
-
                     API.setCredentials(this, response);
                     API.setUserData(this, obj);
-
                     onConnectSinch();
                     Toast.makeText(this, "Welcome", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(this, Finddoctor.class);
@@ -109,17 +105,13 @@ public class Authm extends BaseActivity implements SinchService.StartFailedListe
 
     @Override
     public void onStarted() {
-
         Log.d("AuthActivity", "Sinch Start");
     }
 
     @Override
     public void onStartFailed(SinchError error) {
-
-//        Toast.makeText(this, error.getMessage(),Toast.LENGTH_LONG).show();
         Log.d("Sinch fail AuthActivity", error.getMessage());
     }
-
 
     @Override
     protected void onServiceConnected(IBinder iBinder) {
@@ -130,23 +122,8 @@ public class Authm extends BaseActivity implements SinchService.StartFailedListe
     }
 
     private void onConnectSinch() {
-        String userId = IO.getData(this, API.MY_UUID);
-        Toast.makeText(this, userId, Toast.LENGTH_LONG).show();
-        if(getSinchServiceInterface() !=null || !getSinchServiceInterface().isStarted()){
-            getSinchServiceInterface().startClient(userId);
-        }
-
-
-//
-//        if (getSinchServiceInterface() != null) {
-//        }
-//        try {
-//
-//        }catch (Exception e){
-//            Toast.makeText(this, e.getMessage(),Toast.LENGTH_LONG).show();
-//            Log.d("getServiceInterface",e.getMessage());
-//        }
-
+        String userName = IO.getData(this, API.MY_UUID);
+        getSinchServiceInterface().startClient(userName);
 
     }
 
