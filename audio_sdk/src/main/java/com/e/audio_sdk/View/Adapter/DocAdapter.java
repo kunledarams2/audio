@@ -101,6 +101,7 @@ public class DocAdapter extends RecyclerView.Adapter<DocAdapter.DoctorViewHolder
 
     public void setDoctors(List<Doctor> doctors){
         this.doctors=doctors;
+        notifyDataSetChanged();
     }
 
 
@@ -110,6 +111,7 @@ public class DocAdapter extends RecyclerView.Adapter<DocAdapter.DoctorViewHolder
         ImageButton voiceCall;
         View status;
         LinearLayout rating;
+
 
         DoctorViewHolder(@NonNull View itemView) {
             super(itemView);

@@ -132,8 +132,6 @@ public class DirectRouting extends BaseActivity {
                     bundle.putString(DOCTOR_AVATAR, doctorImage);
                     bundle.putString(DOCTOR_NAME, getDoctorInfo.get(2));
 
-
-
                     placeCall( doctcontId,bundle);
 
                 } else {
@@ -163,7 +161,6 @@ public class DirectRouting extends BaseActivity {
     protected void onServiceConnected(IBinder iBinder) {
         super.onServiceConnected(iBinder);
         checkDoctor();
-        Toast.makeText(this, "Sinch is ready",Toast.LENGTH_LONG).show();
     }
 
     private void placeCall( String Doctor_UUID, Bundle bundle) {
@@ -184,7 +181,7 @@ public class DirectRouting extends BaseActivity {
             }
 
         }catch (Exception e){
-            Toast.makeText(this,e.getMessage()+ call.toString(),Toast.LENGTH_LONG).show();
+//            Toast.makeText(this,e.getMessage()+ call.toString(),Toast.LENGTH_LONG).show();
             Log.d("placecall",e.getMessage());
         }
 

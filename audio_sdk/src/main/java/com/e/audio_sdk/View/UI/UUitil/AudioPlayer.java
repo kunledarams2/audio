@@ -123,13 +123,11 @@ public class AudioPlayer {
 
     }
 
-    public boolean isMute() {
-        return audioManager.isMicrophoneMute();
-    }
-
     public boolean isOnSpeaker(){
         return audioManager.isSpeakerphoneOn();
     }
 
-
+    public boolean isMute(){
+        return audioManager.isMicrophoneMute();
+    }
 }

@@ -11,12 +11,14 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.e.audio_sdk.R;
 import com.e.audio_sdk.View.Adapter.DocAdapter;
@@ -30,12 +32,12 @@ import com.e.audio_sdk.ViewModel.DoctorViewmodel;
 public class FindADoctor extends FragmentTitled implements FragmentChanger {
 
    private RecyclerView recyclerView;
-   private ImageButton searchBtn;
+   private ImageButton searchBtn ,closesearchBtn ;
     private RelativeLayout retrylayout;
     private Button retrybtn;
    private ProgressBar loader;
    private LinearLayoutManager llm;
-
+   private SwipeRefreshLayout refreshLayout;
    private DoctorViewmodel viewmodel;
    private EditText searchField;
    private TextView errormessage;
@@ -43,6 +45,7 @@ public class FindADoctor extends FragmentTitled implements FragmentChanger {
    private int page= 1;
    private int specialtyId, doctorId;
    private DocAdapter docAdapter;
+   private TextView title;
 
 
     public FindADoctor() {
@@ -82,26 +85,50 @@ public class FindADoctor extends FragmentTitled implements FragmentChanger {
         retrybtn= view.findViewById(R.id.retryBtn);
         errormessage=view.findViewById(R.id.placeholder_label);
         emptyIcon=view.findViewById(R.id.placeholder_icon);
+        refreshLayout = view.findViewById(R.id.pulldownrefresh);
+        title= view.findViewById(R.id.title);
+        closesearchBtn=view.findViewById(R.id.closeSearch);
+
+
 //        doctor =new Doctor();
 
         retrybtn.setOnClickListener(view1 -> retrySearch());
 
         searchBtn.setOnClickListener(btn->{
+            title.setVisibility(View.GONE);
+            searchField.setVisibility(View.VISIBLE);
+            searchBtn.setVisibility(View.VISIBLE);
+            closesearchBtn.setVisibility(View.VISIBLE);
+//            viewmodel.fetchRadomDoctor();
             String query = searchField.getText().toString();
-            page =1;
+
             if(!TextUtils.isEmpty(query)){
                 retrylayout.setVisibility(View.GONE);
-                loader.setVisibility(View.VISIBLE);
+                loader.setVisibility(View.GONE);
                 viewmodel.fetchSearchDoctor(query,page);
             }
 
         });
+        closesearchBtn.setOnClickListener(btn->{
+            searchField.setShowSoftInputOnFocus(false);
+            searchField.getText().clear();
+            searchField.setVisibility(View.GONE);
+            title.setVisibility(View.VISIBLE);
+            closesearchBtn.setVisibility(View.GONE);
+            viewmodel.fetchSpecialyDoctor(specialtyId,page);
+        });
+        refreshLayout.setOnRefreshListener(() -> {
+            viewmodel.fetchSpecialyDoctor(specialtyId,page);
+            refreshLayout.setRefreshing(false);
+        });
+
     }
+
+
 
     private void setupAdapter(){
         llm= new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(llm);
-
         docAdapter =new DocAdapter(getContext());
         recyclerView.setAdapter(docAdapter);
     }
@@ -142,6 +169,10 @@ public class FindADoctor extends FragmentTitled implements FragmentChanger {
     }
 
     private void retrySearch() {
+        closesearchBtn.setVisibility(View.GONE);
+        searchField.setVisibility(View.GONE);
+        searchField.getText().clear();
+        viewmodel.fetchSpecialyDoctor(specialtyId,page);
     }
 
 

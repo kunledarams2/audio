@@ -47,36 +47,33 @@ public class DoctorRespository {
         Map<String, String> params=new HashMap<>();
         params.put("page", String.valueOf(page));
 
-        stringCall.get(URLS.SPECIALTY_DOCTORS + specialId, params, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                log("RESPONSE " + response);
-                try {
+        stringCall.get(URLS.SPECIALTY_DOCTORS + specialId, params, response -> {
+            log("RESPONSE " + response);
+            try {
 
-                    JSONObject obj = new JSONObject(response);
-                    if (obj.has("code") && obj.getInt("code") == 0 && !obj.isNull("doctors")) {
-                        List<Doctor> List = new ArrayList<>();
-                        if (!obj.isNull("doctors")) {
-                            JSONArray jsonArray = obj.getJSONArray("doctors");
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                Doctor doctor = Doctor.parse(jsonArray.getJSONObject(i));
-                                List.add(doctor);
-                            }
-                            result.setDatalist(List);
-                            log("SUCCESSFUL");
-                        } else {
-                            result.setMessage(obj.getString("description"));
+                JSONObject obj = new JSONObject(response);
+                if (obj.has("code") && obj.getInt("code") == 0 && !obj.isNull("doctors")) {
+                    List<Doctor> List = new ArrayList<>();
+                    if (!obj.isNull("doctors")) {
+                        JSONArray jsonArray = obj.getJSONArray("doctors");
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            Doctor doctor = Doctor.parse(jsonArray.getJSONObject(i));
+                            List.add(doctor);
                         }
-
+                        result.setDatalist(List);
+                        log("SUCCESSFUL");
+                    } else {
+                        result.setMessage(obj.getString("description"));
                     }
 
-                } catch (JSONException e) {
-                    log(e.getMessage());
-                    result.setMessage(e.getMessage());
                 }
-                data.setValue(result);
 
+            } catch (JSONException e) {
+                log(e.getMessage());
+                result.setMessage(e.getMessage());
             }
+            data.setValue(result);
+
         }, error -> {
             log("VOLLEY ERROR");
             log(error.getMessage());
@@ -95,8 +92,7 @@ public class DoctorRespository {
 
 
         stringCall.get(URLS.DOCTORS_RANDOM,params, response -> {
-
-
+            log("RESPONSE " + response);
             try {
                 JSONObject obj =new JSONObject(response);
                 if (obj.has("code") && obj.getInt("code")==0){
@@ -108,6 +104,7 @@ public class DoctorRespository {
                             list.add(doctor);
                         }
                         result.setDatalist(list);
+                        log(" SUCCESSFUL" );
                     }
                     else {
                         result.setMessage(obj.getString(""));
@@ -149,20 +146,23 @@ public class DoctorRespository {
 
         MutableLiveData<Result<Doctor>> data=new MutableLiveData<>();
         Result<Doctor>result=new Result<>();
-        Map<String, String> params = new HashMap<>();
 
-        stringCall.get(URLS.DOCTORS_SEARCH,params,response -> {
+        Map<String, String> params = new HashMap<>();
+        params.put("page", String.valueOf(page));
+        stringCall.get(URLS.DOCTORS_SEARCH + doctorname ,params,response -> {
+            log("RESPONSE " + response);
             try {
-                JSONObject obj = new JSONObject();
+                JSONObject obj = new JSONObject(response);
                 if(obj.has("code")&& !obj.isNull("doctors")&& obj.getInt("code")==0){
                     List<Doctor> list =new ArrayList<>();
                     if(!obj.isNull("doctors")){
-                        JSONArray notes= new JSONArray("doctors");
+                        JSONArray notes= obj.getJSONArray("doctors");
                         for(int i =0 ; i<notes.length();i++){
                             Doctor doctor =Doctor.parse(notes.getJSONObject(i));
                             list.add(doctor);
                         }
                         result.setDatalist(list);
+                        log("SUCCESSFUL" );
                     }else {
                         result.setMessage(obj.getString("descriptions"));
                     }

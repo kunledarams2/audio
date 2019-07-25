@@ -106,7 +106,6 @@ public class VoiceCall_Screen extends BaseActivity {
 
 
         bundle = getIntent().getExtras();
-
         mDoctorName = bundle.getString(DOCTOR_NAME);
         mDoctorImage = bundle.getString(DOCTOR_AVATAR);
 
@@ -223,6 +222,7 @@ public class VoiceCall_Screen extends BaseActivity {
         @Override
         public void onCallProgressing(Call call) {
             log("Call on progress");
+            connectionStatue.setText("Ringing...");
             mAudioPlayer.playProgressTone();
         }
 
@@ -234,6 +234,7 @@ public class VoiceCall_Screen extends BaseActivity {
             AudioController audioController= getSinchServiceInterface().getAudioController();
             audioController.enableSpeaker();
             mCallStart=System.currentTimeMillis();
+            connectionStatue.setText("Connected");
 
         }
 
@@ -263,11 +264,13 @@ public class VoiceCall_Screen extends BaseActivity {
         mAudioPlayer.stopProgressTone();
         if(call !=null){
             call.hangup();
+//            closeScreen();
         }
         if(closeScreen){
            if(isAnsRateDoc){
                ratingModel(call);
            }
+           else closeScreen();
         }
     }
     private void closeScreen(){

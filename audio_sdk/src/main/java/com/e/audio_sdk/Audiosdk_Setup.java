@@ -38,7 +38,7 @@ public class Audiosdk_Setup extends BaseActivity implements SinchService2.StartF
 
 
     public void sdk_Setup(String userEmail) {
-
+        setUUID();
         Intent intent = new Intent(context, Authm.class);
         intent.putExtra("userEmail", userEmail);
         context.startActivity(intent);

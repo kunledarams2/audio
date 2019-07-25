@@ -93,6 +93,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <Button android:id="@+id/speaker_btn"
             android:layout_margin="10dp"
             android:drawableTop="@drawable/ic_volume_up_gray"
@@ -105,6 +106,8 @@
             android:background="@drawable/circle_gray_border"
             android:layout_width="70dp"
             android:layout_height="70dp" />
+
+
         <Button android:id="@+id/mute_btn"
             android:layout_margin="10dp"
             android:textAllCaps="false"
