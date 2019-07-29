@@ -124,8 +124,6 @@ public class FindADoctor extends FragmentTitled implements FragmentChanger {
 
     }
 
-
-
     private void setupAdapter(){
         llm= new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(llm);

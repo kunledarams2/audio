@@ -34,6 +34,9 @@ public class Authm extends BaseActivity implements SinchService.StartFailedListe
     private EditText email;
     private StringCall call;
     private String getHostuseremail;
+    private Bundle bundle;
+    private String useremail;
+    private String providerid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +44,15 @@ public class Authm extends BaseActivity implements SinchService.StartFailedListe
         setContentView(R.layout.activity_authm);
 
         email = findViewById(R.id.email);
-//        call= new StringCall(this);
-        getHostuseremail = getIntent().getStringExtra("userEmail");
-//        getEmail();
+//        getHostuseremail = getIntent().getStringExtra("userEmail");
+
+        bundle= getIntent().getExtras();
+        if(bundle.containsKey("PROVIDER_ID")){
+            useremail= bundle.getString("USER_EMAIL");
+            providerid=bundle.getString("PROVIDER_ID");
+        }
+
+
     }
 
     /**
@@ -52,17 +61,17 @@ public class Authm extends BaseActivity implements SinchService.StartFailedListe
      */
     public void getEmail() {
 
-        email.setText(getHostuseremail);
+        email.setText(useremail);
         call = new StringCall(this);
 
         Map<String, String> logParams = new HashMap<>();
-        logParams.put("email", getHostuseremail);
+        logParams.put("email", useremail);
         logParams.put("brand", DeviceName.getDeviceName());
         logParams.put("operatingSystem", "ANDROID");
         logParams.put("uuid", IO.getData(this, API.MY_UUID));
 
         logParams.put("sdkType", "chat");
-        logParams.put("provider", "1");
+        logParams.put("provider", providerid);
 
 
         call.post(URLS.SDK_AUTHENICATION, logParams, response -> {
@@ -72,7 +81,6 @@ public class Authm extends BaseActivity implements SinchService.StartFailedListe
                     API.setCredentials(this, response);
                     API.setUserData(this, obj);
                     onConnectSinch();
-                    Toast.makeText(this, "Welcome", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(this, Finddoctor.class);
                     startActivity(intent);
                     finish();
@@ -117,7 +125,6 @@ public class Authm extends BaseActivity implements SinchService.StartFailedListe
     protected void onServiceConnected(IBinder iBinder) {
         super.onServiceConnected(iBinder);
         getEmail();
-        Toast.makeText(this, "onServiceConnected", Toast.LENGTH_LONG).show();
         getSinchServiceInterface().startListener(this);
     }
 

@@ -29,13 +29,11 @@ public class AudioPlayer {
 
     public AudioPlayer(Context mContext) {
         this.mContext = mContext;
+        audioManager= (AudioManager)mContext.getSystemService(Context.AUDIO_SERVICE);
     }
 
 
     public void playRinging(){
-
-         audioManager= (AudioManager)mContext.getSystemService(Context.AUDIO_SERVICE);
-
 
         switch (audioManager.getRingerMode()){
 

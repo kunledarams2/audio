@@ -95,35 +95,35 @@ public class IO {
         return string;
     }
 
-    public static void deleteData(Context context, String key) {
-        SharedPreferences prefs = context.getSharedPreferences(API.SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        prefs.edit().remove(key).apply();
-    }
+//    public static void deleteData(Context context, String key) {
+//        SharedPreferences prefs = context.getSharedPreferences(API.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+//        prefs.edit().remove(key).apply();
+//    }
 
-    private static Uri cameraPhotoUri;
+//    private static Uri cameraPhotoUri;
 
-    public static void cameraIntent(Activity activity) {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        File destination = new File(getImageFolder(), "Tremendoc_" + timestamp + ".jpg");
-        Uri imageUri = FileProvider.getUriForFile(activity, "com.tremendoc.tremendocdoctor.provider", destination);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(destination));
-        //Uri uriToUploadMedia = Uri.fromFile(destination);
-        cameraPhotoUri = imageUri;
-        activity.startActivityForResult(intent, REQUEST_CAMERA);
-    }
+//    public static void cameraIntent(Activity activity) {
+//        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+//        File destination = new File(getImageFolder(), "Tremendoc_" + timestamp + ".jpg");
+//        Uri imageUri = FileProvider.getUriForFile(activity, "com.tremendoc.tremendocdoctor.provider", destination);
+//        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(destination));
+//        //Uri uriToUploadMedia = Uri.fromFile(destination);
+//        cameraPhotoUri = imageUri;
+//        activity.startActivityForResult(intent, REQUEST_CAMERA);
+//    }
 
-    public static Uri getCameraPhotoUri() {
-        return cameraPhotoUri;
-    }
-
-    public static void galleryIntent(Activity activity) {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        activity.startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_GALLERY);
-        Log.d("IO __--_-_--", "galleryIntent: ");
-    }
+//    public static Uri getCameraPhotoUri() {
+//        return cameraPhotoUri;
+//    }
+//
+//    public static void galleryIntent(Activity activity) {
+//        Intent intent = new Intent();
+//        intent.setType("image/*");
+//        intent.setAction(Intent.ACTION_GET_CONTENT);
+//        activity.startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_GALLERY);
+//        Log.d("IO __--_-_--", "galleryIntent: ");
+//    }
 
     private static File getImageFolder() {
         File folder = new File(Environment.getExternalStorageDirectory(), "Tremendoc/Media/Images");

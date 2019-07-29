@@ -22,7 +22,6 @@ import com.e.audio_sdk.View.UI.Fragment.FragmentTitled;
 import com.e.audio_sdk.View.UI.UUitil.IO;
 
 /**
- *
  * Activities that contain this fragment must implement the
  * // * {@link Stepone} interface
  * to handle interaction events.
@@ -160,14 +159,14 @@ public class Stepone extends FragmentTitled implements View.OnClickListener {
             Toast.makeText(getContext(), "Passwords do not match", Toast.LENGTH_LONG).show();
         }
         if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password1) && !TextUtils.isEmpty(password2)
-                && password1.equals(password2) && password1.length()>6 ) {
+                && password1.equals(password2) && password1.length() > 6) {
 
             IO.setData(getContext(), USERNAME, username);
             IO.setData(getContext(), PASSWORD, password1);
 
             fragmentChanger.ChangeFragment(Steptwo.newInstance());
-            String getIO=IO.getData(getContext(),USERNAME);
-            Toast.makeText(getContext(),getIO, Toast.LENGTH_LONG).show();
+            String getIO = IO.getData(getContext(), USERNAME);
+            Toast.makeText(getContext(), getIO, Toast.LENGTH_LONG).show();
         }
 //        Intent intent= new Intent(getContext(), Finddoctor.class);
 //        startActivity(intent);

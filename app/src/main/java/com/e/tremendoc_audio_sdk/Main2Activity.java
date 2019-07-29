@@ -2,7 +2,6 @@ package com.e.tremendoc_audio_sdk;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
@@ -10,20 +9,19 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.e.audio_sdk.Audiosdk_Setup;
-import com.e.audio_sdk.View.UI.Activity.BaseActivity;
+import com.e.audio_sdk.AudioSdk_Setup;
 
 public class Main2Activity extends AppCompatActivity {
 
    EditText userEmail;
-   private Audiosdk_Setup audiosdk_setup;
+   private AudioSdk_Setup audiosdk_setup;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
         userEmail=findViewById(R.id.userEmail);
-        audiosdk_setup= new Audiosdk_Setup(this );
+        audiosdk_setup= new AudioSdk_Setup(this,"1" );
     }
 
     public void talktoDoctor(View view) {

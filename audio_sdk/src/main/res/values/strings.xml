@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Audio_Sdk</string>
+
+    <string name="subscriptionInfo"> Subscribe with N1000 to start \n talking with a doctor </string>
 </resources>

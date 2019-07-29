@@ -17,29 +17,27 @@
     <uses-feature android:name="android.hardware.audio.output" />
     <uses-feature android:name="android.hardware.microphone" />
 
-
     <application>
-        <service android:name=".Service.SinchService2"/>
-        <service android:name=".Service.SinchService"/>
-        <activity android:name=".Audio_Sdk_Setup"></activity>
-        <activity android:name=".View.UI.Activity.Authm"
-            android:screenOrientation="portrait"/>
+        <activity android:name=".View.UI.Activity.Subscription"></activity>
+
+        <service android:name=".Service.SinchService2" />
+        <service android:name=".Service.SinchService" />
+
+        <activity android:name=".Audio_Sdk_Setup" />
+        <activity
+            android:name=".View.UI.Activity.Authm"
+            android:screenOrientation="portrait" />
         <activity android:name=".View.UI.Activity.DirectRouting" />
         <activity android:name=".View.UI.Activity.ContactActivity" />
-
-
         <activity
             android:name=".View.UI.Activity.Finddoctor"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".View.UI.Activity.Signup"
             android:windowSoftInputMode="adjustPan" />
-
         <activity
             android:name=".View.UI.Activity.VoiceCall_Screen"
             android:windowSoftInputMode="adjustPan" />
-
-
     </application>
 
 </manifest>

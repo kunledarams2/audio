@@ -212,7 +212,7 @@ public class VoiceCall_Screen extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+//        super.onBackPressed();
         // caller is not allow to press back buttom but have to end call
 
     }
@@ -255,6 +255,20 @@ public class VoiceCall_Screen extends BaseActivity {
 
     }
 
+
+    private void endCall(){
+        Call call= getSinchServiceInterface().getCall(mCallId);
+        mAudioPlayer.stopProgressTone();
+        if(call !=null){
+            call.hangup();
+
+        }
+
+        ratingModel(call);
+
+
+    }
+
     private void endCall(boolean closeScreen){
         Call call= getSinchServiceInterface().getCall(mCallId);
         onEndCall(call,closeScreen);
@@ -270,13 +284,19 @@ public class VoiceCall_Screen extends BaseActivity {
            if(isAnsRateDoc){
                ratingModel(call);
            }
-           else closeScreen();
+           closeScreen();
         }
     }
     private void closeScreen(){
-        Intent intent = new Intent(this, Finddoctor.class);
-        startActivity(intent);
-        finish();
+        Call call= getSinchServiceInterface().getCall(mCallId);
+        if(call!=null){
+
+            call.hangup();
+            Intent intent = new Intent(this, Finddoctor.class);
+            startActivity(intent);
+            finish();
+        }
+
     }
 //    private void showCallbackModal(Call call) {
 //        int remaingTime = TEN_MINUTES - call.getDetails().getDuration();
