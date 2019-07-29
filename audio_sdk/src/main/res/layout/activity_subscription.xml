@@ -6,6 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".View.UI.Activity.Subscription">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/background_login" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryTrans"/>
     <HorizontalScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
@@ -46,20 +56,24 @@
     </HorizontalScrollView>
 
     <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:id="@+id/cardView"
+        android:layout_width="wrap_content"
+        android:layout_height="120dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
+
+        app:cardCornerRadius="10dp"
         app:contentPadding="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.714"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scroll_view">
 
         <TextView
-            android:layout_width="361dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:gravity="center"
@@ -68,17 +82,36 @@
     </androidx.cardview.widget.CardView>
 
     <Button
-        android:layout_width="wrap_content"
+        android:id="@+id/button3"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:padding="20sp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="44dp"
+        android:background="@drawable/login_btn_bg"
+        android:padding="10dp"
         android:text="Subscribe"
         android:textAllCaps="false"
-        tools:layout_editor_absoluteX="40dp"
-        tools:layout_editor_absoluteY="387dp" />
+        android:textColor="#fff"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView" />
+
     <Button
-        android:layout_width="wrap_content"
+        android:id="@+id/button2"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="88dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/login_btn_bg"
+
+        android:padding="10dp"
         android:text="Skip"
-        android:textAllCaps="false"/>
+        android:textAllCaps="false"
+        android:textColor="#fff"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintHorizontal_bias="0.085"
+        app:layout_constraintStart_toEndOf="@+id/button3"
+        app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
