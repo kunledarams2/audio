@@ -79,6 +79,7 @@ public class Stepone extends FragmentTitled implements View.OnClickListener {
         indicator = view.findViewById(R.id.indicator);
         reviewbtn = view.findViewById(R.id.reveal_btn);
 
+
         continueBtn = view.findViewById(R.id.next_btn);
         continueBtn.setOnClickListener(this);
 

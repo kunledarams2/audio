@@ -76,11 +76,12 @@
                         android:id="@+id/username"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="#fff"
+                        android:backgroundTint="@color/colorWhite"
                         android:hint="Username"
                         android:inputType="text"
-                        android:textColor="#fff"
-                        android:textColorHint="#fff"
+                        android:textColor="@color/colorWhite"
+                        android:textColorHint="@color/colorWhite"
+                        android:textColorHighlight="@color/colorWhite"
                         android:textSize="@dimen/font_14" />
                 </com.google.android.material.textfield.TextInputLayout>
 

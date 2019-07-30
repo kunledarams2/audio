@@ -250,9 +250,9 @@ public class API {
 
 //    public static void logout(Context context) {
 //        clearCredentials(context);
-//        Intent login = new Intent(context, AuthActivity.class);
-//        login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        context.startActivity(login);
+//        Intent background_login = new Intent(context, AuthActivity.class);
+//        background_login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        context.startActivity(background_login);
 //    }
 
     public static void clearCredentials(Context context) {
