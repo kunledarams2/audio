@@ -4,6 +4,7 @@ public enum ConsultationStatus {
     COMPLETED,
     DOCTOR_REJECTED,
     CUSTOMER_REJECTED,
-    IGNORED,
+    DOCTOR_MISSED_CALL,
+    CUSTOMER_END_CALL,
     TERMINATED
 }

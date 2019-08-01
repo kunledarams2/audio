@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +37,7 @@ import java.util.TimerTask;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.e.audio_sdk.View.UI.UUitil.CallContants.CALL_ID;
+import static com.e.audio_sdk.View.UI.UUitil.CallContants.CONSULTATION_ID;
 import static com.e.audio_sdk.View.UI.UUitil.CallContants.DOCTOR_AVATAR;
 import static com.e.audio_sdk.View.UI.UUitil.CallContants.DOCTOR_NAME;
 
@@ -47,13 +49,16 @@ public class VoiceCall_Screen extends BaseActivity {
     private final String ADDED_LISTENER = "addlistener";
     private final String CALL_START_TIME = "callstarttime";
 
+    public static final int TEN_MINUTES = 60 * 10;
+
 
     private String mCallId;
-    private String mDoctorName, mDoctorImage, mDoctorToken;
+    private String mDoctorName, mDoctorImage, mDoctorToken, consultationId;
     private boolean mAddedListener = false;
     private long mCallStart = 0;
     private boolean isOnCall = false;
-    private boolean isAnsRateDoc =false;
+    private boolean isAnsRateDoc = false;
+    private boolean endCall = false;
     private int rating = 0;
 
     private AudioPlayer mAudioPlayer;
@@ -63,7 +68,7 @@ public class VoiceCall_Screen extends BaseActivity {
 
     private Button speakerBtn, muteBtn, endCallbtn;
     private CircleImageView doctorImage;
-    private TextView doctorName,  connectionStatue,callDuration;
+    private TextView doctorName, connectionStatue, callDuration;
 
 
     public class UpdateCallDurationTrack extends TimerTask {
@@ -108,6 +113,7 @@ public class VoiceCall_Screen extends BaseActivity {
         bundle = getIntent().getExtras();
         mDoctorName = bundle.getString(DOCTOR_NAME);
         mDoctorImage = bundle.getString(DOCTOR_AVATAR);
+        consultationId = bundle.getString(CONSULTATION_ID);
 
 
         mCallId = bundle.getString(CALL_ID);
@@ -116,20 +122,23 @@ public class VoiceCall_Screen extends BaseActivity {
 
     }
 
-    private boolean OnCall( String getCallId){
-        if(getCallId !=null){
+    private boolean OnCall(String getCallId) {
+        if (getCallId != null) {
 
             Picasso.get().load(mDoctorImage).into(doctorImage);
             doctorName.setText(mDoctorName);
-            endCallbtn.setOnClickListener(btn->{ endCall(true); });
-            speakerBtn.setOnClickListener(btn->{
+            endCallbtn.setOnClickListener(btn -> {
+                endCall(true);
+            });
+            speakerBtn.setOnClickListener(btn -> {
                 toggleSpeaker();
             });
-            muteBtn.setOnClickListener(btn->{toggleMute();});
-            isOnCall=true;
+            muteBtn.setOnClickListener(btn -> {
+                toggleMute();
+            });
+            isOnCall = true;
             return true;
-        }
-        else {
+        } else {
             return false;
         }
 
@@ -141,10 +150,10 @@ public class VoiceCall_Screen extends BaseActivity {
         return String.format(Locale.US, "%02d:%02d", minutes, seconds);
     }
 
-    private  void updateCallDuration(){
+    private void updateCallDuration() {
 
-        Call call= getSinchServiceInterface().getCall(mCallId);
-        if(call !=null){
+        Call call = getSinchServiceInterface().getCall(mCallId);
+        if (call != null) {
             callDuration.setText(formatTimespan(call.getDetails().getDuration()));
         }
     }
@@ -153,13 +162,12 @@ public class VoiceCall_Screen extends BaseActivity {
     protected void onServiceConnected(IBinder iBinder) {
         super.onServiceConnected(iBinder);
 
-        if(mCallId !=null){
+        if (mCallId != null) {
             Call call = getSinchServiceInterface().getCall(mCallId);
-            if(call !=null){
+            if (call != null) {
                 call.addCallListener(new SinchCallListener());
-                mAddedListener=true;
-            }
-            else {
+                mAddedListener = true;
+            } else {
                 Log.d(TAG_LOG, "Start with invalid callid abort call");
                 finish();
             }
@@ -169,7 +177,7 @@ public class VoiceCall_Screen extends BaseActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(isOnCall){
+        if (isOnCall) {
             stopTimer();
         }
     }
@@ -177,7 +185,7 @@ public class VoiceCall_Screen extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(isOnCall){
+        if (isOnCall) {
             startTimer();
         }
     }
@@ -185,7 +193,7 @@ public class VoiceCall_Screen extends BaseActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if(isOnCall){
+        if (isOnCall) {
             stopTimer();
         }
 
@@ -194,18 +202,18 @@ public class VoiceCall_Screen extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if(isOnCall){
+        if (isOnCall) {
             startTimer();
         }
     }
 
-    private void startTimer(){
-        mTimer= new Timer();
+    private void startTimer() {
+        mTimer = new Timer();
         mTimeCallTrack = new UpdateCallDurationTrack();
-        mTimer.schedule(mTimeCallTrack,0,500);
+        mTimer.schedule(mTimeCallTrack, 0, 500);
     }
 
-    private void stopTimer(){
+    private void stopTimer() {
         mTimeCallTrack.cancel();
         mTimer.cancel();
     }
@@ -217,7 +225,7 @@ public class VoiceCall_Screen extends BaseActivity {
 
     }
 
-    public  class SinchCallListener implements CallListener{
+    public class SinchCallListener implements CallListener {
 
         @Override
         public void onCallProgressing(Call call) {
@@ -231,9 +239,9 @@ public class VoiceCall_Screen extends BaseActivity {
             log("Call is established");
             mAudioPlayer.stopProgressTone();
             setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
-            AudioController audioController= getSinchServiceInterface().getAudioController();
+            AudioController audioController = getSinchServiceInterface().getAudioController();
             audioController.enableSpeaker();
-            mCallStart=System.currentTimeMillis();
+            mCallStart = System.currentTimeMillis();
             connectionStatue.setText("Connected");
 
         }
@@ -241,11 +249,13 @@ public class VoiceCall_Screen extends BaseActivity {
         @Override
         public void onCallEnded(Call call) {
             CallEndCause endCause = call.getDetails().getEndCause();
-            Log.d(TAG_LOG,"Call ended Reason" + endCause.toString());
+            Log.d(TAG_LOG, "Call ended Reason" + endCause.toString());
+
             mAudioPlayer.stopProgressTone();
             setVolumeControlStream(AudioManager.USE_DEFAULT_STREAM_TYPE);
-            String causeMsg= " Call Ended " + call.getDetails().toString();
+            String causeMsg = " Call Ended " + call.getDetails().toString();
             log(causeMsg);
+            onEndCall(call, true);
         }
 
         @Override
@@ -256,88 +266,85 @@ public class VoiceCall_Screen extends BaseActivity {
     }
 
 
-    private void endCall(){
-        Call call= getSinchServiceInterface().getCall(mCallId);
+    private void endCall() {
+        Call call = getSinchServiceInterface().getCall(mCallId);
         mAudioPlayer.stopProgressTone();
-        if(call !=null){
+        if (call != null) {
             call.hangup();
 
         }
 
         ratingModel(call);
-
-
     }
 
-    private void endCall(boolean closeScreen){
-        Call call= getSinchServiceInterface().getCall(mCallId);
-        onEndCall(call,closeScreen);
+    private void endCall(boolean closeScreen) {
+        Call call = getSinchServiceInterface().getCall(mCallId);
+        onEndCall(call, closeScreen);
     }
 
-    private void onEndCall(Call call , boolean closeScreen){
+    private void onEndCall(Call call, boolean closeScreen) {
         mAudioPlayer.stopProgressTone();
-        if(call !=null){
+        if (call != null) {
             call.hangup();
-//            closeScreen();
+            getSinchServiceInterface().updateConsultation(call, consultationId);
         }
-        if(closeScreen){
-           if(isAnsRateDoc){
-               ratingModel(call);
-           }
-           closeScreen();
+        if (closeScreen) {
+            if (isAnsRateDoc) {
+                ratingModel(call);
+            } else {
+                closeScreen();
+            }
         }
+//        closeScreen();
     }
-    private void closeScreen(){
-        Call call= getSinchServiceInterface().getCall(mCallId);
-        if(call!=null){
 
-            call.hangup();
-            Intent intent = new Intent(this, Finddoctor.class);
-            startActivity(intent);
-            finish();
-        }
+    private void closeScreen() {
 
+        Intent intent = new Intent(this, Finddoctor.class);
+        startActivity(intent);
+        finish();
     }
-//    private void showCallbackModal(Call call) {
-//        int remaingTime = TEN_MINUTES - call.getDetails().getDuration();
-//
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setTitle("Consultation")
-//                .setMessage("You still have " + formatTimespan(remaingTime) + " " +
-//                        "of consultation time, will you like to continue the consultation?")
-//                .setPositiveButton("Continue", (dialog, i) -> {
+
+    private void showCallbackModal(Call call) {
+        int remaingTime = TEN_MINUTES - call.getDetails().getDuration();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Consultation")
+                .setMessage("You still have " + formatTimespan(remaingTime) + " " +
+                        "of consultation time, will you like to continue the consultation?")
+                .setPositiveButton("Continue", (dialog, i) -> {
 //                    callback();
-//                    dialog.cancel();
-//                })
-//                .setNegativeButton("No", (dialog, i) -> {
-//                    dialog.dismiss();
-//
-//                    if (isAnsRateDoc)
-//                        ratingModal(call);
-//                    else {
-//                        getSinchServiceInterface().updateConsultation(call);
-//                        closeScreen();
-//                    }
-//                });
-//
-//        builder.create().show();
-//    }
+                    dialog.cancel();
+                })
+                .setNegativeButton("No", (dialog, i) -> {
+                    dialog.dismiss();
 
-    private void ratingModel(Call call){
-        DialogInterface.OnClickListener onClickPositv =(dialogInterface, i) -> {
-            getSinchServiceInterface().updateConsultation(call,rating);
+                    if (isAnsRateDoc)
+                        ratingModel(call);
+                    else {
+                        getSinchServiceInterface().updateConsultation(call, consultationId);
+                        closeScreen();
+                    }
+                });
+
+        builder.create().show();
+    }
+
+    private void ratingModel(Call call) {
+        DialogInterface.OnClickListener onClickPositv = (dialogInterface, i) -> {
+            getSinchServiceInterface().updateConsultation(call, rating, consultationId);
             dialogInterface.dismiss();
             closeScreen();
 
         };
 
-        DialogInterface.OnClickListener onClickNegitv= (dialogInterface , i)-> {
-            getSinchServiceInterface().updateConsultation(call);
+        DialogInterface.OnClickListener onClickNegitv = (dialogInterface, i) -> {
+            getSinchServiceInterface().updateConsultation(call, consultationId);
             dialogInterface.dismiss();
             closeScreen();
         };
 
-        ratingModal(onClickPositv,onClickNegitv);
+        ratingModal(onClickPositv, onClickNegitv);
 
     }
 
@@ -350,6 +357,7 @@ public class VoiceCall_Screen extends BaseActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_rating, null, false);
         TextView textView = view.findViewById(R.id.rating_result);
+        EditText patientcomment = view.findViewById(R.id.mcomment);
 
         for (int i = 0; i < stars.length; i++) {
             starBtns[i] = view.findViewById(stars[i]);
@@ -365,7 +373,7 @@ public class VoiceCall_Screen extends BaseActivity {
                 }
 
                 switch (rating) {
-                    case 1 :
+                    case 1:
                         textView.setText("Very poor");
                         textView.setTextColor(Color.parseColor("#dd5555"));
                         break;
@@ -394,7 +402,7 @@ public class VoiceCall_Screen extends BaseActivity {
                     if (rating > 0)
                         onPosClick.onClick(dialog, i);
                     else
-                    ToastUtili.showModal(this,"Please rate the consultation");
+                        ToastUtili.showModal(this, "Please rate the consultation");
                 })
                 .setNegativeButton("Cancel", (dialog, i) -> {
                     onNegClick.onClick(dialog, i);
@@ -403,36 +411,38 @@ public class VoiceCall_Screen extends BaseActivity {
                 .show();
     }
 
-    private void  toggleSpeaker(){
-        if(mAudioPlayer.isOnSpeaker()){
-           getSinchServiceInterface().getAudioController().disableSpeaker();
-           speakerBtn.setTextColor(getResources().getColor(R.color.colorGray));
-           speakerBtn.setText("Normal");
-           speakerBtn.setCompoundDrawables(null,getDrawable(R.drawable.ic_volume_down_gray),null,null);
+    private void toggleSpeaker() {
+        if (mAudioPlayer.isOnSpeaker()) {
+            getSinchServiceInterface().getAudioController().disableSpeaker();
+            speakerBtn.setTextColor(getResources().getColor(R.color.colorGray));
+            speakerBtn.setText("Normal");
+            speakerBtn.setCompoundDrawables(null, getDrawable(R.drawable.ic_volume_down_gray), null, null);
 
-        }
-        else {
+        } else {
             getSinchServiceInterface().getAudioController().enableSpeaker();
             speakerBtn.setTextColor(getResources().getColor(R.color.colorWhite));
             speakerBtn.setText("Speaker");
-            speakerBtn.setCompoundDrawables(null,getDrawable(R.drawable.ic_volume_up_white),null,null);
+            speakerBtn.setCompoundDrawables(null, getDrawable(R.drawable.ic_volume_up_white), null, null);
         }
     }
 
-    private void toggleMute(){
-        if(mAudioPlayer.isMute()){
+    private void toggleMute() {
+        if (mAudioPlayer.isMute()) {
             getSinchServiceInterface().getAudioController().unmute();
             muteBtn.setTextColor(getResources().getColor(R.color.colorWhite));
             muteBtn.setText("Unmute");
-            muteBtn.setCompoundDrawables(null, getDrawable(R.drawable.ic_mic_white),null,null);
+            muteBtn.setCompoundDrawables(null, getDrawable(R.drawable.ic_mic_white), null, null);
 
-        }
-        else {
+        } else {
             getSinchServiceInterface().getAudioController().mute();
             muteBtn.setText("Mute");
-            muteBtn.setCompoundDrawables(null,getDrawable(R.drawable.ic_mic_off_gray),null,null);
+            muteBtn.setCompoundDrawables(null, getDrawable(R.drawable.ic_mic_off_gray), null, null);
             muteBtn.setTextColor(getResources().getColor(R.color.colorGray));
         }
+    }
+
+    private void callback() {
+
     }
 
     private void log(String msg) {

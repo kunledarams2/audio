@@ -8,14 +8,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-
 import com.e.audio_sdk.Api.API;
 import com.e.audio_sdk.Api.StringCall;
 import com.e.audio_sdk.Api.URLS;
 import com.e.audio_sdk.R;
 import com.e.audio_sdk.Service.SinchService;
-import com.e.audio_sdk.Service.SinchService2;
+
 import com.e.audio_sdk.View.UI.UUitil.DeviceName;
 import com.e.audio_sdk.View.UI.UUitil.IO;
 import com.e.audio_sdk.View.UI.UUitil.ToastUtili;
@@ -44,12 +42,11 @@ public class Authm extends BaseActivity implements SinchService.StartFailedListe
         setContentView(R.layout.activity_authm);
 
         email = findViewById(R.id.email);
-//        getHostuseremail = getIntent().getStringExtra("userEmail");
+        bundle = getIntent().getExtras();
 
-        bundle= getIntent().getExtras();
-        if(bundle.containsKey("PROVIDER_ID")){
-            useremail= bundle.getString("USER_EMAIL");
-            providerid=bundle.getString("PROVIDER_ID");
+        if (bundle.containsKey("PROVIDER_ID")) {
+            useremail = bundle.getString("USER_EMAIL");
+            providerid = bundle.getString("PROVIDER_ID");
         }
 
 
@@ -88,6 +85,7 @@ public class Authm extends BaseActivity implements SinchService.StartFailedListe
                 } else if (obj.has("description")) {
 
                     Intent intent = new Intent(this, Signup.class);
+                    intent.putExtras(bundle);
                     startActivity(intent);
                     finish();
 

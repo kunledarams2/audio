@@ -17,7 +17,7 @@ import androidx.core.content.ContextCompat;
 
 import com.e.audio_sdk.Api.API;
 import com.e.audio_sdk.Service.SinchService;
-import com.e.audio_sdk.Service.SinchService2;
+//import com.e.audio_sdk.Service.SinchService2;
 import com.e.audio_sdk.View.UI.Activity.Authm;
 import com.e.audio_sdk.View.UI.Activity.BaseActivity;
 import com.e.audio_sdk.View.UI.UUitil.Checker;

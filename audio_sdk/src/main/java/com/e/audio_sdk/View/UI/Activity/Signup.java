@@ -39,6 +39,8 @@ public class Signup extends BaseActivity implements FragmentChanger, ModelSaver<
     private StringCall call;
     private ProgressDialog dialog;
     private Checker checker;
+    private Bundle bundle;
+    private String provideid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,8 @@ public class Signup extends BaseActivity implements FragmentChanger, ModelSaver<
         changeView(STEP_ONE);
         dialog = new ProgressDialog(this);
         checker=new Checker(this);
+        bundle= getIntent().getExtras();
+        provideid=bundle.getString("PROVIDER_ID");
     }
 
     @Override
@@ -98,7 +102,7 @@ public class Signup extends BaseActivity implements FragmentChanger, ModelSaver<
         loadData.put("uuid", IO.getData(this, API.MY_UUID));
         loadData.put("brand", DeviceName.getDeviceName());
         loadData.put("sdkType","chat");
-        loadData.put("provider","1");
+        loadData.put("provider",provideid);
 
         call.post(URLS.SDK_CREATE_USER, loadData, response -> {
             try {
@@ -107,7 +111,7 @@ public class Signup extends BaseActivity implements FragmentChanger, ModelSaver<
                 if (obj.has("code") && obj.getInt("code") == 0) {
 
 
-                    Intent intent = new Intent(this, Finddoctor.class);
+                    Intent intent = new Intent(this, Subscription.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                     finish();

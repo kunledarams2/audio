@@ -10,7 +10,7 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.e.audio_sdk.Service.SinchService;
-import com.e.audio_sdk.Service.SinchService2;
+
 
 public class BaseActivity extends AppCompatActivity implements ServiceConnection {
 

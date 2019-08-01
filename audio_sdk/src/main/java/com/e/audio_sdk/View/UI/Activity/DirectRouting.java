@@ -42,7 +42,7 @@ public class DirectRouting extends BaseActivity {
     private List<String> getDoctorInfo = new ArrayList<>();
     private StringCall call;
 
-    private enum errorMessage {noSubcription, unknown, NetworkError, Nocall}
+    private enum errorMessage {NoSubscription, unknown, NetworkError, Nocall}
 
     private AlertDialog alertDialog;
     private boolean isPosBtnDialog = false;
@@ -178,6 +178,9 @@ public class DirectRouting extends BaseActivity {
                 intent.putExtras(bundle);
                 startActivity(intent);
                 finish();
+
+                updateConsultation(bundle.getString(CONSULTATION_ID));
+
             }
 
         }catch (Exception e){
@@ -202,7 +205,7 @@ public class DirectRouting extends BaseActivity {
 
         if (error.equals(errorMessage.NetworkError) || error.equals(errorMessage.unknown)) {
             stBtn = "Retry";
-        } else if (error.equals(errorMessage.noSubcription)) {
+        } else if (error.equals(errorMessage.NoSubscription)) {
             stBtn = "Subscribe";
 
         } else if(error.equals(errorMessage.Nocall)){
@@ -235,22 +238,22 @@ public class DirectRouting extends BaseActivity {
                 }
             });
 
-        } else if (error.equals(errorMessage.noSubcription)) {
-            builder.setOnCancelListener(dialogInterface -> {
-                if (isPosBtnDialog) {
-                    isPosBtnDialog = false;
-                } else {
-                    goBack();
-                }
-            });
-            builder.setOnDismissListener(dialogInterface -> {
-                if (isPosBtnDialog) {
-
-                    isPosBtnDialog = false;
-                } else {
-                    goBack();
-                }
-            });
+//        } else if (error.equals(errorMessage.noSubcription)) {
+//            builder.setOnCancelListener(dialogInterface -> {
+//                if (isPosBtnDialog) {
+//                    isPosBtnDialog = false;
+//                } else {
+//                    goBack();
+//                }
+//            });
+//            builder.setOnDismissListener(dialogInterface -> {
+//                if (isPosBtnDialog) {
+//
+//                    isPosBtnDialog = false;
+//                } else {
+//                    goBack();
+//                }
+//            });
         }
         else  if (error.equals(errorMessage.Nocall)){
             builder.setOnDismissListener(ialogInterface -> {
@@ -269,6 +272,25 @@ public class DirectRouting extends BaseActivity {
         Intent intent = new Intent(this, Finddoctor.class);
         startActivity(intent);
         finish();
+    }
+
+    private void updateConsultation(String consultation){
+
+        call= new StringCall(this);
+        Map<String, String> params= new HashMap<>();
+
+        params.put("consultationId", consultation );
+        params.put("status","INITIATED");
+        params.put("rating","0");
+
+
+        call.post(URLS.UPDATE_CONSULTATION,params, response -> {
+            Log.d("updateConsultation","-----________-----_____---___" + response);
+
+        },error -> {
+            Log.d("updateConsultation","-----________-----_____---___" + error);
+        });
+
     }
 
     private void log(String e) {

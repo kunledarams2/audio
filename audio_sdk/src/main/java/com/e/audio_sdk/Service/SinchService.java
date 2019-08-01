@@ -175,17 +175,17 @@ public class SinchService extends Service {
         }
 
         /* Only call this method at the end of outgoing calls */
-        public void updateConsultation(Call call, int rating) {
-            String consultationId = IO.getData(SinchService.this, CONSULTATION_ID);
+        public void updateConsultation(Call call, int rating, String consultationId) {
+//            String consultationId = IO.getData(SinchService.this, CONSULTATION_ID);
             ConsultationStatus status = null;// = ConsultationStatus.IGNORED;
 
             CallEndCause cause = call.getDetails().getEndCause();
             int duration = call.getDetails().getDuration();
 
             if (cause == CallEndCause.NO_ANSWER) {
-                status = ConsultationStatus.IGNORED;
+                status = ConsultationStatus.DOCTOR_MISSED_CALL;
             } else if (cause == CallEndCause.HUNG_UP /*&& duration >= ContactActivity.FIFTEEN_MINUTES*/) {
-                status = ConsultationStatus.COMPLETED;
+                status = ConsultationStatus.CUSTOMER_END_CALL;
                 //} else if (cause == CallEndCause.HUNG_UP /*&& duration < ContactActivity.FIFTEEN_MINUTES */) {
                 //
             } else if (cause == CallEndCause.DENIED) {
@@ -219,8 +219,8 @@ public class SinchService extends Service {
 
         }
 
-        public void updateConsultation(Call call) {
-            updateConsultation(call, -1);
+        public void updateConsultation(Call call , String consultationId) {
+            updateConsultation(call, -1, consultationId);
         }
 
     }

@@ -15,7 +15,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimaryTrans"/>
+        android:background="@color/colorPrimaryTrans"
+        />
     <HorizontalScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
@@ -62,11 +63,10 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
-
+        app:cardBackgroundColor="@color/colorPrimaryTrans"
         app:cardCornerRadius="10dp"
         app:contentPadding="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.714"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scroll_view">
 
@@ -78,6 +78,7 @@
             android:layout_marginEnd="8dp"
             android:gravity="center"
             android:text="@string/subscriptionInfo"
+            android:textColor="#fff"
             android:textSize="18sp" />
     </androidx.cardview.widget.CardView>
 
@@ -92,6 +93,7 @@
         android:text="Subscribe"
         android:textAllCaps="false"
         android:textColor="#fff"
+        android:onClick="mSubscription"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
@@ -103,7 +105,7 @@
         android:layout_marginTop="44dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/login_btn_bg"
-
+        android:onClick="mSkip"
         android:padding="10dp"
         android:text="Skip"
         android:textAllCaps="false"
