@@ -46,6 +46,7 @@ public class FindADoctor extends FragmentTitled implements FragmentChanger {
    private int specialtyId, doctorId;
    private DocAdapter docAdapter;
    private TextView title;
+   private Bundle bundle;
 
 
     public FindADoctor() {
@@ -70,6 +71,7 @@ public class FindADoctor extends FragmentTitled implements FragmentChanger {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_findadoctor, container, false);
+
         setupView(view);
         setupAdapter();
         return view;

@@ -31,6 +31,9 @@ import org.json.JSONObject;
 
 import java.util.Map;
 
+import static com.e.audio_sdk.View.UI.UUitil.AudioParamsSetup.SDK_PROVIDERID;
+import static com.e.audio_sdk.View.UI.UUitil.AudioParamsSetup.SDK_TYPE;
+
 public class Signup extends BaseActivity implements FragmentChanger, ModelSaver<SDK_User> {
 
     public static final String STEP_ONE = "step_one";
@@ -40,7 +43,7 @@ public class Signup extends BaseActivity implements FragmentChanger, ModelSaver<
     private ProgressDialog dialog;
     private Checker checker;
     private Bundle bundle;
-    private String provideid;
+    private String provideid,sdk_type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +53,8 @@ public class Signup extends BaseActivity implements FragmentChanger, ModelSaver<
         dialog = new ProgressDialog(this);
         checker=new Checker(this);
         bundle= getIntent().getExtras();
-        provideid=bundle.getString("PROVIDER_ID");
+        provideid=bundle.getString(SDK_PROVIDERID);
+        sdk_type=bundle.getString(SDK_TYPE);
     }
 
     @Override
@@ -101,8 +105,8 @@ public class Signup extends BaseActivity implements FragmentChanger, ModelSaver<
         loadData.put("operatingSystem", "ANDROID");
         loadData.put("uuid", IO.getData(this, API.MY_UUID));
         loadData.put("brand", DeviceName.getDeviceName());
-        loadData.put("sdkType","chat");
-        loadData.put("provider",provideid);
+        loadData.put("sdkType",sdk_type);
+        loadData.put("provider",IO.getData(this,API.PROVIDER_ID));
 
         call.post(URLS.SDK_CREATE_USER, loadData, response -> {
             try {
@@ -110,8 +114,12 @@ public class Signup extends BaseActivity implements FragmentChanger, ModelSaver<
                 JSONObject obj = new JSONObject(response);
                 if (obj.has("code") && obj.getInt("code") == 0) {
 
+                    Toast.makeText(this,"Success",Toast.LENGTH_LONG).show();
+                    API.setCredentials(Signup.this,response);
+                    IO.setData(this,API.PROVIDER_ID,provideid);
 
                     Intent intent = new Intent(this, Subscription.class);
+                    intent.putExtras(bundle);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                     finish();

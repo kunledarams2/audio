@@ -18,12 +18,13 @@ import com.e.audio_sdk.View.UI.Fragment.FragmentTitled;
 public class Finddoctor extends BaseActivity implements FragmentChanger {
 
     public static  final String CHAT_WITH_DOCTOR="chat_with_doctor";
+    private Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_findadoctor);
-
+        bundle= getIntent().getExtras();
     }
 
 

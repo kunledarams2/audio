@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.e.audio_sdk.Api.API;
 import com.e.audio_sdk.Api.StringCall;
 import com.e.audio_sdk.Api.URLS;
@@ -25,6 +26,10 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.e.audio_sdk.View.UI.UUitil.AudioParamsSetup.SDK_CUSTOMER_EMAIL;
+import static com.e.audio_sdk.View.UI.UUitil.AudioParamsSetup.SDK_PROVIDERID;
+import static com.e.audio_sdk.View.UI.UUitil.AudioParamsSetup.SDK_TYPE;
+
 //import android.support.v7.app.AppCompatActivity;
 
 public class Authm extends BaseActivity implements SinchService.StartFailedListener {
@@ -35,6 +40,7 @@ public class Authm extends BaseActivity implements SinchService.StartFailedListe
     private Bundle bundle;
     private String useremail;
     private String providerid;
+    private String sdk_type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +50,9 @@ public class Authm extends BaseActivity implements SinchService.StartFailedListe
         email = findViewById(R.id.email);
         bundle = getIntent().getExtras();
 
-        if (bundle.containsKey("PROVIDER_ID")) {
-            useremail = bundle.getString("USER_EMAIL");
-            providerid = bundle.getString("PROVIDER_ID");
-        }
+        useremail = bundle.getString(SDK_CUSTOMER_EMAIL);
+        providerid = bundle.getString(SDK_PROVIDERID);
+        sdk_type=bundle.getString(SDK_TYPE);
 
 
     }
@@ -67,11 +72,13 @@ public class Authm extends BaseActivity implements SinchService.StartFailedListe
         logParams.put("operatingSystem", "ANDROID");
         logParams.put("uuid", IO.getData(this, API.MY_UUID));
 
-        logParams.put("sdkType", "chat");
-        logParams.put("provider", providerid);
+        logParams.put("sdkType", sdk_type);
+        logParams.put("provider", IO.getData(this,API.PROVIDER_ID));
 
 
         call.post(URLS.SDK_AUTHENICATION, logParams, response -> {
+
+            Log.d("Sign_In", "__________------___________-----" + response);
             try {
                 JSONObject obj = new JSONObject(response);
                 if (obj.has("code") && obj.getInt("code") == 0) {
@@ -79,11 +86,14 @@ public class Authm extends BaseActivity implements SinchService.StartFailedListe
                     API.setUserData(this, obj);
                     onConnectSinch();
                     Intent intent = new Intent(this, Finddoctor.class);
+                    intent.putExtras(bundle);
                     startActivity(intent);
                     finish();
+//                    Toast.makeText(this, IO.getData(this, API.PROVIDER_ID),Toast.LENGTH_LONG).show();
 
                 } else if (obj.has("description")) {
 
+                    API.clearCredentials(this);
                     Intent intent = new Intent(this, Signup.class);
                     intent.putExtras(bundle);
                     startActivity(intent);

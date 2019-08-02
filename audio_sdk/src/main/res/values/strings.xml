@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Audio_Sdk</string>
 
-    <string name="subscriptionInfo"> Subscribe with N1000 to start \n talking with a doctor </string>
+    <string name="subscriptionInfo"> Subscribe with a monthly fee of N1000 \n Our doctors are eager to speak with you </string>
 </resources>

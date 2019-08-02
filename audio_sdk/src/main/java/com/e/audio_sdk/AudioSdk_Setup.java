@@ -25,6 +25,10 @@ import com.e.audio_sdk.View.UI.UUitil.IO;
 import com.e.audio_sdk.View.UI.UUitil.Permission;
 import com.sinch.android.rtc.SinchError;
 
+import static com.e.audio_sdk.View.UI.UUitil.AudioParamsSetup.SDK_CUSTOMER_EMAIL;
+import static com.e.audio_sdk.View.UI.UUitil.AudioParamsSetup.SDK_PROVIDERID;
+import static com.e.audio_sdk.View.UI.UUitil.AudioParamsSetup.SDK_TYPE;
+
 public class AudioSdk_Setup extends BaseActivity {
 
     Context context;
@@ -33,25 +37,30 @@ public class AudioSdk_Setup extends BaseActivity {
     private boolean askedBefore = false;
     private static final int INTERNET_PERMISSION = 100;
     private static final int UUID_PERMISSION = 120;
+//    private Bundle bundle;
 
-    public AudioSdk_Setup(Context context, String providerId) {
+    public AudioSdk_Setup(Context context, String providerId,String sdk_type ) {
         this.context = context;
         this.providerId=providerId;
+        this.sdk_type= sdk_type;
     }
 
 
     public void sdk_Setup(String userEmail) {
         setUUID();
+
         Bundle bundle= new Bundle();
-        bundle.putString("PROVIDER_ID",providerId);
-        bundle.putString("USER_EMAIL",userEmail);
+        bundle.putString(SDK_PROVIDERID,providerId);
+        bundle.putString(SDK_CUSTOMER_EMAIL,userEmail);
+        bundle.putString(SDK_TYPE,sdk_type);
         // check for internet access
         Checker checker = new Checker(context);
         if (checker.isOnline()) {
             Intent intent = new Intent(context, Authm.class);
-//            intent.putExtra("s", userEmail);
             intent.putExtras(bundle);
             context.startActivity(intent);
+            IO.setData(context,API.PROVIDER_ID,providerId);
+
         } else {
             Toast.makeText(context, "No Internet Access", Toast.LENGTH_LONG).show();
             return;

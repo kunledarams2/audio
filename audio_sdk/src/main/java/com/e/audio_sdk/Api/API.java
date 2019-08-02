@@ -46,6 +46,7 @@ public class API {
     public static final String AVATAR = "avatar";
 
     public static final String MY_UUID = "MY_UUID";
+    public static  final  String PROVIDER_ID = "sdkproviderId";
 
 
 

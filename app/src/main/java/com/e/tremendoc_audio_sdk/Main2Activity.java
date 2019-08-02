@@ -21,7 +21,7 @@ public class Main2Activity extends AppCompatActivity {
         setContentView(R.layout.activity_main2);
 
         userEmail=findViewById(R.id.userEmail);
-        audiosdk_setup= new AudioSdk_Setup(this,"1" );
+        audiosdk_setup= new AudioSdk_Setup(this,"1" , "chat");
     }
 
     public void talktoDoctor(View view) {

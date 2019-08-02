@@ -136,7 +136,13 @@ public class DirectRouting extends BaseActivity {
 
                 } else {
                     log(obj.getString("description"));
-                    errorShowlog(obj.getString("description"), errorMessage.unknown);
+                    if(obj.getString("description").contains("You do not have any active Subscription, please subscribe to a plan"))
+                    {
+                        errorShowlog(obj.getString("description"), errorMessage.NoSubscription);
+
+                    }else {
+                        errorShowlog(obj.getString("description"), errorMessage.unknown);
+                    }
                 }
             } catch (JSONException e) {
                 log(e.getMessage());
@@ -173,7 +179,7 @@ public class DirectRouting extends BaseActivity {
 
                 String call_Id= call.getCallId();
                 bundle.putString(CALL_ID, call_Id);
-                toastMessage(call_Id);
+//                toastMessage(call_Id);
                 Intent intent = new Intent(this, VoiceCall_Screen.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
@@ -238,22 +244,26 @@ public class DirectRouting extends BaseActivity {
                 }
             });
 
-//        } else if (error.equals(errorMessage.noSubcription)) {
-//            builder.setOnCancelListener(dialogInterface -> {
-//                if (isPosBtnDialog) {
-//                    isPosBtnDialog = false;
-//                } else {
-//                    goBack();
-//                }
-//            });
-//            builder.setOnDismissListener(dialogInterface -> {
-//                if (isPosBtnDialog) {
-//
-//                    isPosBtnDialog = false;
-//                } else {
-//                    goBack();
-//                }
-//            });
+        } else if (error.equals(errorMessage.NoSubscription)) {
+            builder.setOnCancelListener(dialogInterface -> {
+                if (isPosBtnDialog) {
+
+                    Intent intent= new Intent(this, Subscription.class);
+                    startActivity(intent);
+                    isPosBtnDialog = false;
+                } else {
+                    goBack();
+                }
+            });
+            builder.setOnDismissListener(dialogInterface -> {
+                if (isPosBtnDialog) {
+                    Intent intent= new Intent(this, Subscription.class);
+                    startActivity(intent);
+                    isPosBtnDialog = false;
+                } else {
+                    goBack();
+                }
+            });
         }
         else  if (error.equals(errorMessage.Nocall)){
             builder.setOnDismissListener(ialogInterface -> {
