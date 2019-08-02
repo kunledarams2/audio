@@ -67,11 +67,6 @@
                     android:padding="10dp"
                     >
 
-
-
-
-
-
                     <Button
                         android:id="@+id/signup_btn"
                         android:layout_width="250dp"
