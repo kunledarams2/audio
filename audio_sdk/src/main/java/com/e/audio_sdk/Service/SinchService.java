@@ -298,7 +298,6 @@ public class SinchService extends Service {
 
 
 
-
         }
     }
 
