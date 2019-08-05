@@ -19,18 +19,14 @@ buildscript {
 
 allprojects {
     repositories {
-//        google()
-//        jcenter()
-//        maven {
-//            url 'https://jitpack.io'
-////            credentials { username authToken }
-//        }
-
-        jcenter()
         mavenCentral()
-        maven { url "https://jitpack.io" }
         google()
-//
+        jcenter()
+        maven {
+            url 'https://jitpack.io'
+//            credentials { username authToken }
+        }
+
         flatDir {
             dirs 'libs'
         }
@@ -41,3 +37,9 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+
+//jcenter()
+//mavenCentral()
+//maven { url "https://jitpack.io" }
+//google()
