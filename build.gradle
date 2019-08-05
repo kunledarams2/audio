@@ -19,17 +19,21 @@ buildscript {
 
 allprojects {
     repositories {
-        google()
-        jcenter()
-        maven {
-            url 'https://jitpack.io'
-//            credentials { username authToken }
-        }
-
-//
-//        flatDir {
-//            dirs 'libs'
+//        google()
+//        jcenter()
+//        maven {
+//            url 'https://jitpack.io'
+////            credentials { username authToken }
 //        }
+
+        jcenter()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+        google()
+//
+        flatDir {
+            dirs 'libs'
+        }
         
     }
 }

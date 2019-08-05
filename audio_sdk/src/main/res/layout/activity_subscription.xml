@@ -38,21 +38,28 @@
                 android:layout_width="250dp"
                 android:layout_height="150dp"
                 android:layout_marginStart="20dp"
-                android:src="@drawable/card_appointment" />
+                android:src="@drawable/appointment" />
 
             <ImageView
                 android:id="@+id/prescriptions"
                 android:layout_width="250dp"
                 android:layout_height="150dp"
                 android:layout_marginStart="10dp"
-                android:src="@drawable/card_drugs" />
+                android:src="@drawable/drugs" />
 
             <ImageView
                 android:id="@+id/fertility"
                 android:layout_width="250dp"
                 android:layout_height="150dp"
                 android:layout_marginStart="10dp"
-                android:src="@drawable/card_fertility" />
+                android:src="@drawable/fertility" />
+
+            <ImageView
+                android:id="@+id/diet"
+                android:layout_width="250dp"
+                android:layout_height="150dp"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/diet" />
         </LinearLayout>
     </HorizontalScrollView>
 
@@ -64,7 +71,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
         app:cardBackgroundColor="@color/colorPrimaryTrans"
-        app:cardCornerRadius="10dp"
+        app:cardCornerRadius="12dp"
         app:contentPadding="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -80,7 +87,7 @@
             android:padding="15dp"
             android:text="@string/subscriptionInfo"
             android:textColor="#fff"
-            android:textSize="18sp" />
+            android:textSize="15sp" />
     </androidx.cardview.widget.CardView>
 
     <Button
